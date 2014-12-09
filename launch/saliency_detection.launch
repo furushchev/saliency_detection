@@ -1,0 +1,14 @@
+<launch>
+	<arg name="kinect" value="false" />
+	<arg name="algorithm" value="Itti" /> <!-- Options: Rudinac / Itti / Hou / Achanta -->
+
+	<!-- Select camera stream -->
+   	<arg if="$(arg kinect)"  name="imagestream" value="/camera/rgb/image_color" type="str" />
+   	<arg unless="$(arg kinect)" name="imagestream" value="/image_raw" type="str" />
+      
+	<node name="saliencymap$(arg algorithm)" pkg="saliency_detection" type="saliencyDetection$(arg algorithm)" output="screen">  
+		<remap from="/rgbimage_in" to="$(arg imagestream)" />
+      	<remap from="/saliency/image" to="/saliency/image" />
+	</node>
+</launch>
+
